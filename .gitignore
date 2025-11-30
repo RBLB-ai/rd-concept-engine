@@ -1,0 +1,38 @@
+# ==== Streamlit Secrets (never commit these) ====
+.streamlit/secrets.toml
+
+# ==== Python Cache ====
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# ==== Virtual Environments ====
+venv/
+.venv/
+env/
+ENV/
+*.env
+
+# ==== Logs & Debug Files ====
+*.log
+
+# ==== Byte-compiled / optimized / DLL files ====
+*.so
+*.dll
+*.dylib
+
+# ==== Jupyter stuff (if any) ====
+.ipynb_checkpoints/
+
+# ==== OS / Editor Junk ====
+.DS_Store
+Thumbs.db
+
+# ==== VS Code ====
+.vscode/
+
+# ==== Build / Distribution ====
+dist/
+build/
+*.egg-info/
