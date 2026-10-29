@@ -419,24 +419,36 @@ if st.session_state.messages and st.session_state.messages[-1]["role"] == "user"
             st.markdown(content)
 
             img_prompt = extract_image_prompt(content)
+
             if img_prompt:
                 with st.spinner("Generating render..."):
-                    img = client.images.generate(
-                        model="dall-e-3",
-                        prompt=img_prompt,
-                        size="1024x1024",
-                        quality="hd",
-                        n=1
-                    )
-                    image_url = img.data[0].url
+                    try:
+                        import base64
 
-                    # Display image
-                    st.image(image_url, caption="Concept Render")
+                        img = client.images.generate(
+                            model="gpt-image-2",
+                            prompt=img_prompt,
+                            size="1024x1024",
+                            quality="high",
+                            n=1
+                        )
 
-                    # Save ALL render URLs for export
-                    if "render_image_urls" not in st.session_state:
-                        st.session_state["render_image_urls"] = []
-                    st.session_state["render_image_urls"].append(image_url)
+                        image_bytes = base64.b64decode(
+                            img.data[0].b64_json
+                        )
+
+                        # Display the generated image
+                        st.image(image_bytes, caption="Concept Render")
+
+                        # Save image bytes for the session
+                        if "render_images" not in st.session_state:
+                            st.session_state["render_images"] = []
+
+                        st.session_state["render_images"].append(image_bytes)
+
+                    except Exception as e:
+                        st.error("Image generation failed.")
+                        st.write(f"Details: {type(e).__name__}: {e}")
 
             st.session_state.messages.append({"role": "assistant", "content": content})
 
